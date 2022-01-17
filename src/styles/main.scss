@@ -1,0 +1,55 @@
+@import './normalize.scss';
+@import './sassConfig.scss';
+
+i[class^=icon] {
+  display: inline-block;
+  background-color: $color-main;
+  height: 42px;
+  width: 42px;
+  border-radius: 100px;
+  background-repeat: no-repeat;
+}
+.icon-help {
+  background-image: url("~@/assets/images/icon/icon-help.png");
+}
+.icon-search {
+  background-image: url("~@/assets/images/icon/icon-search.png");
+}
+.icon-location {
+  background-image: url("~@/assets/images/icon/icon-location.png");
+}
+.icon-user {
+  background-image: url("~@/assets/images/icon/icon-user.png");
+}
+
+.main-color {
+  color: $color-main;
+}
+
+.text-align {
+  text-align: center;
+}
+
+.clearfix {
+  @extend %clearfix;
+}
+
+// float
+.pull-right {
+  float: right;
+}
+.pull-left {
+  float: left;
+}
+
+// position
+.p-r {
+  position: relative;
+}
+.p-a {
+  position: absolute;
+}
+
+.fs-24 {
+  font-size: 16px;
+}
