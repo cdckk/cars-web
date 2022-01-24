@@ -1,11 +1,12 @@
-import instance from '../utils/request.js'
+import service from '../utils/request.js'
 /**
  * 获取验证码
  */
 export function GetCode(data){
-  return instance.request({
+  return service.request({
       method: "post",
-      url: "/getSms/",
+      // url: "/getSms/",
+      url: `${process.env.VUE_APP_API_LOGIN}/getSms/`,
       data
   })
 }
@@ -14,9 +15,10 @@ export function GetCode(data){
  * 登录
  */
 export function Login(data){
-  return instance.request({
+  return service.request({
       method: "post",
-      url: "/login/",
+      // url: "/login/",
+      url: `${process.env.VUE_APP_API_LOGIN}/login/`,
       data
   })
 }

@@ -66,7 +66,15 @@ module.exports = {
           pathRewrite: {
               [`^${process.env.VUE_APP_API_LOGIN}`]: ''
           }
-      }
+      },
+      [process.env.VUE_APP_API_WEB]: {
+          target: process.env.VUE_API_DEV_WEB_TARGET, //API服务器的地址
+          changeOrigin: true,
+          pathRewrite: {
+              [`^${process.env.VUE_APP_API_WEB}`]: ''
+          }
+      },
+
 
       // http://www.web-jshtml.cn/api/vue3  /api/getCode
     }

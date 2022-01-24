@@ -11,7 +11,7 @@
         <a class="select-car-btn">选择车辆</a>
       </li>
       <li>
-        <i class="icon icon-location"></i>
+        <i class="icon icon-location" @click="selfLocation"></i>
       </li>
       <li>
         <i class="icon icon-user" @click="toUser"></i>
@@ -38,6 +38,9 @@ export default {
   methods: {
     toUser () {
       this.$router.push('/user')
+    },
+    selfLocation() {
+      this.$store.commit('location/SELF_LOCATION')
     }
   }
 }

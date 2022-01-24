@@ -56,7 +56,7 @@ export default {
       passwords: "",
       code: ""
     })
-    let show = ref(true)
+    let show = ref(false)
     let code_text = ref("获取验证码");
     let code_loading = ref(false);
     let code_disabled = ref(false);
