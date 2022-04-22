@@ -3,7 +3,7 @@
  */
 let geolocation = null
 // 获取自身定位
-export function selfLocation(params) {
+export function getSelfLocation(params) {
   if(!geolocation) {
     geolocation = new AMap.Geolocation({
       enableHighAccuracy: true,//是否使用高精度定位，默认:true
@@ -24,8 +24,9 @@ export function selfLocation(params) {
    *   getCurrentPosition这个方法要有
    */
   geolocation.getCurrentPosition((status,result) => {
+    console.log(status)
     if(status=='complete'){
-        // onComplete(result)
+        onComplete(result)
       // console.log(result.position.lat)
       const lat = result.position.lat
       const lng = result.position.lng
@@ -37,10 +38,16 @@ export function selfLocation(params) {
       // this.amapCircle[0].center = [lng, lat]
 
     }else{
-        // onError(result)
+        onError(result)
     }
   })
+  function onComplete(data) {
+    console.log('定位成功')
+  }
+  function onError(data) {
+    console.log('获取失败',data)
+  }
   if(params.complete && typeof params.complete === 'function')
   AMap.event.addListener(geolocation, 'complete', params.complete);//返回定位信息 params.complete()
-  // AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+  // AMap.event.addListener(geolocation, 'error', params.shibai);      //返回定位出错信息
 }

@@ -37,6 +37,7 @@ export default {
   },
   methods: {
     toUser () {
+      console.log('1111')
       this.$router.push('/user')
     },
     selfLocation() {

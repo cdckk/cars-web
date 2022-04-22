@@ -1,21 +1,12 @@
 <template>
   <div class="cars-wrap">
-    <div class="cars-swiper-wrap">
+    <div class="cars-swiper-wrap" v-if="carsList && carsList.length > 0">
       <swiper ref="mySwiper" :options="swiperOptions">
-        <swiper-slide>
+        <!-- <swiper-slide>
           <cars-list height="600px" />
-        </swiper-slide>
-        <swiper-slide>
-          <cars-list />
-        </swiper-slide>
-        <swiper-slide>
-          <cars-list />
-        </swiper-slide>
-        <swiper-slide>
-          <cars-list />
-        </swiper-slide>
-        <swiper-slide>
-          <cars-list />
+        </swiper-slide> -->
+        <swiper-slide v-for="item in carsList" :key="item.id">
+          <cars-list :data="item" />
         </swiper-slide>
         <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
@@ -29,6 +20,7 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 import CarsList from './components/CarsList.vue'
+import { getCars } from '../../api/requestNode'
 export default {
   name: '',
   components: {
@@ -51,14 +43,40 @@ export default {
           prevEl: '.swiper-button-prev'
         }
         // Some Swiper option/callback...
-      }
+      },
+      carsList: []
     }
   },
   computed: {
   },
+  watch: {
+    "$store.state.global.isClickCarsList": {
+      handler(newvalue) {
+        if(newvalue) {
+          // 清空carsList
+          console.log('清空数组')
+          this.carsList = []
+        }
+      },
+      // immediate: true
+    }
+  },
   created () {
   },
   methods: {
+    getCarsList(parkingId) {
+      getCars({ parkingId }).then(res => {
+        const data = JSON.parse(res.data)
+        console.log('数据',data)
+        // data && (this.carsList = data)
+        this.carsList = data
+        // console.log('carsList',this.carsList)
+      })
+      /**
+       * 这里输出是没有值得，因为请求是异步的
+       */
+      // console.log('carsList',this.carsList)
+    }
   }
 }
 </script>

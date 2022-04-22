@@ -59,7 +59,7 @@
 import { AMapManager, lazyAMapApiLoaderInstance } from 'vue-amap'
 let amapManager = new AMapManager()
 
-import { selfLocation } from './location'
+import { getSelfLocation } from './location'
 import { Walking } from './walking'
 
 import styleCss from './style'
@@ -68,10 +68,10 @@ export default {
   components: {
   },
   props: {
-    parkingLnglat: {
-      type: Array,
-      default: () => []
-    }
+    // parkingLnglat: {
+    //   type: Array,
+    //   default: () => []
+    // }
   },
   data () {
     const self = this
@@ -181,16 +181,21 @@ export default {
     selfLocationComplete(val) {
       const lat = val.position.lat
       const lng = val.position.lng
-      // console.log([lng, lat])
+      console.log('自身定位',[lng, lat])
       this.amapCircle[0].center = [lng, lat]
     },
 
     selfLocation() {
-      selfLocation({
+      console.log('自身定位')
+      getSelfLocation({
         map: this.map,
         complete: (val) => {
+          console.log('66666')
           this.selfLocationComplete(val)
         }
+        // shibai: () => {
+        //   console.log('失败')
+        // }
       })
     },
 
@@ -217,6 +222,8 @@ export default {
     },
     walkingData(val) {
       const data = val
+      this.$store.state.walking.walkingData = data
+      // console.log('vuex', this.$store.state.walking.walkingData)
       this.parkingInfo = [
         {
           position: this.parkingLnglat,

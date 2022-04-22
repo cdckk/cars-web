@@ -1,18 +1,21 @@
 <template>
   <div class="cars-list">
-    <section class="cars-item">
+    <section class="cars-item" @click="getCarsInfo">
       <header>
         <h4>
           <img class="cars-logo" src="../../../assets/images/cars-logo.png" alt="">
-          <span class="name">Mustang 2019款</span>
+          <span class="name">{{data.carsMode}}</span>
         </h4>
-        <p class="attr">新能源汽车 5座</p>
+        <p class="attr">
+          {{ data.carsAttr | energyFormat() }}
+          {{ data.carsAttr | seatNumberFormat() }}座
+        </p>
       </header>
       <div class="cars-content">
         <div class="info">
-          <h4 class="cars-number">粤B 745N8</h4>
+          <h4 class="cars-number">{{data.carsNumber}}</h4>
           <div>
-            <ul class="cars-electric">
+            <ul class="cars-electric active-li-1" :class="data.electric | electricNumber()">
               <li class="active"></li>
               <li class="active"></li>
               <li class="active"></li>
@@ -26,7 +29,8 @@
             </ul>
             <p class="distance">
               <span>约</span>
-              <strong>600</strong>
+              <!-- <strong>{{$store.state.walking.walkingData.routes[0].distance}}</strong> -->
+              <strong>{{data.countKm}}</strong>
               <span>km</span>
             </p>
           </div>
@@ -34,14 +38,18 @@
         <img src="../../../assets/images/pic001.jpg" alt="">
       </div>
       <footer>
-        <a href="javascript: void(0);" class="parking-link">某某停车场</a>
+        <a href="javascript: void(0);" class="parking-link">{{data.parking_name}}</a>
       </footer>
     </section>
-    <section class="cars-item cars-detail" :style="'height:' + height">
+    <section
+      v-if="carsInfoShow"
+      class="cars-item cars-detail"
+      :style="'height:' + carsInfoHeight"
+      >
       <div class="scroll">
         <h4 class="column">
           某某停车厂
-          <a class="close" href=""></a>
+        <span @click="closeCarsInfo" class="close" href=""></span>
         </h4>
         <header>
           <h4>
@@ -100,6 +108,7 @@
 </template>
 
 <script>
+import { formatEnergyType, formatSeatNumber, getCarsAttrKey } from '../../../utils/format'
 export default {
   name: 'CarsList',
   components: {
@@ -107,18 +116,80 @@ export default {
   props: {
     height: {
       type: String,
-      default: '257px'
+      default: '500px'
+    },
+    data: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  filters: {
+    electricNumber(val) {
+      // console.log(val)
+      const number = Math.round(val / 10)
+      return `active-li-${number}`
+    },
+    energyFormat(val) {
+      // const carsAttrItem = JSON.parse(val)
+      // if (carsAttrItem.basics && carsAttrItem.basics.energyType) {
+        // return formatEnergyType(carsAttrItem)
+        return getCarsAttrKey({
+          data: val,
+          parentKey: 'basics',
+          childKey: 'energyType'
+        })
+      // }
+      // return
+    },
+    seatNumberFormat(val) {
+      // const carsAttrItem = JSON.parse(val)
+      // if (carsAttrItem.carsBody && carsAttrItem.carsBody.seatNumber) {
+        // return formatSeatNumber(carsAttrItem)
+        return getCarsAttrKey({
+          data: val,
+          parentKey: 'carsBody',
+          childKey: 'seatNumber'
+        })
+      // }
+      // return
     }
   },
   data () {
     return {
+      carsInfoShow: false,
+      carsInfoHeight: 0,
+      timer: null
     }
   },
   computed: {
   },
   created () {
   },
+  mounted () {
+    // console.log('啊哈',this.data)
+  },
   methods: {
+    // 关闭
+    closeCarsInfo() {
+      this.carsInfoShow = false
+      this.carsInfoHeight = 0
+    },
+    // 打开
+    openCarsInfo() {
+      this.carsInfoShow = true
+      /**
+       * if 防止连续点击，开启多个定时器
+       */
+      if (this.timer) { clearTimeout(this.timer) }
+      this.timer = setTimeout(() => {
+        this.carsInfoHeight = '600px'
+        // 清除定时器
+        clearTimeout(this.timer)
+      }, 10)
+    },
+    getCarsInfo() {
+      this.openCarsInfo()
+    }
   }
 }
 </script>
@@ -168,6 +239,16 @@ header {
   .cars-number {
     font-size: 18px;
   }
+  /**
+    sass for循环
+  */
+  @for $i from 1 through 10 {
+    .active-li-#{$i} {
+      li:nth-child(-n + #{$i}) {
+        background: linear-gradient(#17a8fa, #108dd9);
+      }
+  }
+  }
   .cars-electric {
     // display: flex;
     display: inline-block;
@@ -181,9 +262,9 @@ header {
       background-color: #e1e1e1;
     }
   }
-  .active {
-    background: linear-gradient(#17a8fa, #108dd9);
-  }
+  // .active {
+  //   background: linear-gradient(#17a8fa, #108dd9);
+  // }
   .distance {
     display: inline-block;
     margin-left: 5px;
@@ -227,6 +308,8 @@ header {
 }
 .cars-detail {
   // display: none;
+  height: 0;
+  transition: all 2s ease 0s;
   position: absolute;
   left: 0;
   right: 0;
