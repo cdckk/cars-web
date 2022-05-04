@@ -1,6 +1,16 @@
 @import './normalize.scss';
 @import './sassConfig.scss';
 
+// color
+.color-white {
+  color: white;
+}
+
+// opacity
+.opacity-4 {
+  opacity: .4
+}
+
 i[class^=icon] {
   display: inline-block;
   background-color: $color-main;
@@ -28,6 +38,9 @@ i[class^=icon] {
 
 .text-align {
   text-align: center;
+}
+.text-right {
+  text-align: right;
 }
 
 .clearfix {

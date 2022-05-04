@@ -7,6 +7,9 @@ import ElementUI from 'element-ui'
 // import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
+// 全局路由守卫
+import './router/per'
+
 // 高德地图
 import './plugin/aMap'
 

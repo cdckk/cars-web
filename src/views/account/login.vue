@@ -1,14 +1,10 @@
 <template>
   <div class="password">
-    <Back column="修改登录密码">
-      <!-- <template v-slot: navHeaderRight> -->
-        <!-- <div>注册</div> -->
-        <!-- <router-link>注册</router-link> -->
-      <!-- </template> -->
-      <template v-slot:header>
-        <h1>Here might be a page title</h1>
+    <back>
+      <template v-slot:navHeaderRight>
+        <router-link to="/register" class="color-white opacity-4">注册</router-link>
       </template>
-    </Back>
+    </back>
     <el-form ref="form" :model="form">
       <el-form-item>
         <el-input class="input" v-model="form.name" placeholder="原始密码"></el-input>
@@ -28,11 +24,14 @@
         <el-button class="button" type="primary" @click="onSubmit" size="medium">确定</el-button>
       </el-form-item>
     </el-form>
+    <div class="text-right">
+      <router-link to="/forget" class="color-white opacity-4">忘记密码</router-link>
+    </div>
   </div>
 </template>
 
 <script>
-import Back from '../../../components/back/Back.vue'
+import Back from '../../components/back/Back.vue'
 export default {
   name: '',
   components: {

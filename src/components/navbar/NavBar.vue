@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { getAccountToken } from '@/utils/cookies'
 export default {
   name: '',
   components: {
@@ -37,7 +38,12 @@ export default {
   },
   methods: {
     toUser () {
-      this.$router.push('/user')
+      const accountTokenvalue  = getAccountToken()
+      // console.log('6666',value)
+      // this.$router.push('/user')
+      this.$router.push({
+        name: accountTokenvalue ? 'user' : 'Login'
+      })
     }
   }
 }
@@ -57,7 +63,7 @@ export default {
   left: 0;
   right: 0;
   bottom: 80px;
-  z-index: 10;
+  z-index: 12;
   text-align: center;
   .select-car-btn {
     display: inline-block;

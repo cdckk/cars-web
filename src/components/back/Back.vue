@@ -1,7 +1,12 @@
 <template>
   <div class="header-back">
-    <i class="back-icon"></i>
-    <h4 class="back-title">{{ column }}</h4>
+    <div class="nav-header-left" @click="goBack">
+      <i class="back-icon"></i>
+      <h4 class="back-title">{{ title }}</h4>
+    </div>
+    <div class="nav-header-right">
+      <slot name="navHeaderRight"></slot>
+    </div>
   </div>
 </template>
 
@@ -21,10 +26,16 @@ export default {
     }
   },
   computed: {
+    title() {
+      return this.$store.state.app.routerName
+    }
   },
   created () {
   },
   methods: {
+    goBack() {
+      this.$router.go(-1)
+    }
   }
 }
 </script>
@@ -51,5 +62,12 @@ export default {
   display: inline-block;
   color: #fff;
   font-size: 16px;
+}
+.nav-header-left {
+  float: left;
+}
+.nav-header-right {
+  float: right;
+  color: #fff;
 }
 </style>
