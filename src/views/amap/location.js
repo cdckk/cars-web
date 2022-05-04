@@ -24,7 +24,7 @@ export function getSelfLocation(params) {
    *   getCurrentPosition这个方法要有
    */
   geolocation.getCurrentPosition((status,result) => {
-    console.log(status)
+    console.log('自身定位状态',status)
     if(status=='complete'){
         onComplete(result)
       // console.log(result.position.lat)
